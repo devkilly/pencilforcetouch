@@ -1,0 +1,9 @@
+Package: com.killy.pencilforcetouch
+Name: PencilForceTouch
+Depends: mobilesubstrate
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: An awesome MobileSubstrate tweak!
+Maintainer: Carlos Leal
+Author: Carlos Leal
+Section: Tweaks
