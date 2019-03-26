@@ -7,10 +7,6 @@
 %config(generator=internal)
 
 // New methods created below
-@interface UIGestureRecognizer ()
-+ (void)hs_beginForcingAllNewGestureRecognizersToAllowPencilInput;
-+ (void)hs_endForcingAllNewGestureRecognizersToAllowPencilInput;
-@end
 @interface UITouch ()
 - (BOOL)hs_shouldScaleForceValuesFromPencilLandTo3DTouchLand;
 - (void)hs_setShouldScaleForceValuesFromPencilLandTo3DTouchLand:(BOOL)newShouldScale;
@@ -31,53 +27,15 @@
 
 %end
 
-%hook UITraitCollection
-/* Killy:
-    Simply enabling _supportsForceTouch doesn't enable on ios 12
-*/ 
-- (UIForceTouchCapability)forceTouchCapability {
-    //return UIForceTouchCapability.available;
-    return 2;
-}
-%end
-
-
-%hook UIPreviewInteractionController
-
-/*
-    By default, the 3D Touch gesture recognizers will only respond to direct touches.
-    Override the gesture recognizers creation point to force them all to also accept pencil input (see UIGestureRecognizer hooks below)
-*/
-- (void)initGestureRecognizers {
-    [UIGestureRecognizer hs_beginForcingAllNewGestureRecognizersToAllowPencilInput];
-    %orig;
-    [UIGestureRecognizer hs_endForcingAllNewGestureRecognizersToAllowPencilInput];
-}
-
-%end
-
-
-
 
 %hook UIGestureRecognizer
 
-static BOOL _shouldForceNewGestureRecognizersToAllowPencilInput;
-
-%new
-+ (void)hs_beginForcingAllNewGestureRecognizersToAllowPencilInput {
-    _shouldForceNewGestureRecognizersToAllowPencilInput = YES;
-}
 
 - (void)setAllowedTouchTypes:(NSArray<NSNumber *> *)allowedTouchTypes {
-    if (_shouldForceNewGestureRecognizersToAllowPencilInput && ![allowedTouchTypes containsObject:@(UITouchTypeStylus)]) {
+    if (![allowedTouchTypes containsObject:@(UITouchTypeStylus)]) {
         allowedTouchTypes = [allowedTouchTypes arrayByAddingObject:@(UITouchTypeStylus)];
     }
     %orig(allowedTouchTypes);
-}
-
-%new
-+ (void)hs_endForcingAllNewGestureRecognizersToAllowPencilInput {
-    _shouldForceNewGestureRecognizersToAllowPencilInput = NO;
 }
 
 
