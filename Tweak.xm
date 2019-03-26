@@ -72,6 +72,9 @@ static const char *ShouldScaleKey = "ShouldScaleForceValuesFromPencilLandTo3DTou
     Force values from Apple Pencil are on a slightly different scale to those from a regular touch on a 3D Touch display.
     By scaling up the pressure values a bit, you won't have to press as hard with the pencil to trigger 3D Touch.
 */
+
+/*
+
 - (CGFloat)_pressure {
     CGFloat pressure = %orig;
     if (self.type == UITouchTypeStylus && self.hs_shouldScaleForceValuesFromPencilLandTo3DTouchLand) {
@@ -87,6 +90,6 @@ static const char *ShouldScaleKey = "ShouldScaleForceValuesFromPencilLandTo3DTou
     }
     return newforce;
 }
-
+*/
 
 %end
